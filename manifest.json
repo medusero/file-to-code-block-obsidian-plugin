@@ -1,0 +1,10 @@
+{
+    "id": "dotfiles",
+    "name": "Dotfiles",
+    "version": "1.0.0",
+    "minAppVersion": "0.15.0",
+    "description": "Quickly embed configuration files (dotfiles) from your system into Obsidian notes as code blocks with automatic language detection.",
+    "author": "medusero",
+    "authorUrl": "https://github.com/medusero",
+    "isDesktopOnly": true
+}
