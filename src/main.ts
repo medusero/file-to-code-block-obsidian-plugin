@@ -1,4 +1,5 @@
-import { basename } from "node:path";
+import { basename, join, resolve } from "node:path";
+import { homedir } from "node:os";
 import { Plugin, Modal, App, Setting, Notice, MarkdownView } from "obsidian";
 import { readDotFile } from "./fileReader.ts";
 import { detectLanguage } from "./languageMap.ts";
@@ -61,11 +62,18 @@ export default class MyPlugin extends Plugin {
             id: "dotfiles-to-block",
             name: "Dotfiles to code block",
             callback: () => {
-                new InputModal(this.app, async (path) => {
-                    await this.writeCodeBlock(path);
+                new InputModal(this.app, async (inputPath) => {
+                    await this.writeCodeBlock(inputPath);
                 }).open();
             },
         });
+    }
+
+    expandHomePath(inputPath: string): string {
+        if (inputPath === "~" || inputPath.startsWith("~/")) {
+            return join(homedir(), inputPath.slice(1));
+        }
+        return resolve(inputPath);
     }
 
     insertCodeBlock(codeBlock: string) {
@@ -77,7 +85,8 @@ export default class MyPlugin extends Plugin {
             new Notice("No active markdown note found");
         }
     }
-    async writeCodeBlock(path: string): Promise<void> {
+    async writeCodeBlock(inputPath: string): Promise<void> {
+        const path = this.expandHomePath(inputPath);
         const content = await readDotFile(path);
         const file = basename(path);
         const language = detectLanguage(file);
