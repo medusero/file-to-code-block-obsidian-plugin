@@ -1,10 +1,10 @@
-import { basename, join, resolve } from "node:path";
-import { homedir } from "node:os";
+import { basename } from "node:path";
 import { Plugin, Modal, App, Setting, Notice, MarkdownView } from "obsidian";
 import { readDotFile } from "./fileReader.ts";
 import { detectLanguage } from "./languageMap.ts";
 import { buildCodeBlock } from "./noteBuilder.ts";
 import { InputModal } from "./PathInputModal.ts";
+import { expandHomePath } from "./pathExpander.ts";
 
 class LanguageModal extends Modal {
     language: string;
@@ -69,13 +69,6 @@ export default class MyPlugin extends Plugin {
         });
     }
 
-    expandHomePath(inputPath: string): string {
-        if (inputPath === "~" || inputPath.startsWith("~/")) {
-            return join(homedir(), inputPath.slice(1));
-        }
-        return resolve(inputPath);
-    }
-
     insertCodeBlock(codeBlock: string) {
         const view = this.app.workspace.getActiveViewOfType(MarkdownView);
         if (view) {
@@ -86,7 +79,7 @@ export default class MyPlugin extends Plugin {
         }
     }
     async writeCodeBlock(inputPath: string): Promise<void> {
-        const path = this.expandHomePath(inputPath);
+        const path = expandHomePath(inputPath);
         const content = await readDotFile(path);
         const file = basename(path);
         const language = detectLanguage(file);
