@@ -34,12 +34,21 @@ const knownExtensions: Readonly<Record<string, string>> = {
     py: "py",
 };
 
-export function detectLanguage(fileName: string): string | undefined {
-    if (fileName in knownFiles) {
+export function detectLanguage(
+    fileName: string,
+    customLanguageMap: Record<string, string> = {},
+): string | undefined {
+    const extension = fileName.replace(/^.*\./, "");
+    const key = `*.${extension}`;
+    const hasExtension = fileName.includes(".");
+    if (Object.hasOwn(customLanguageMap, fileName)) {
+        return customLanguageMap[fileName];
+    } else if (hasExtension && Object.hasOwn(customLanguageMap, key)) {
+        return customLanguageMap[key];
+    } else if (Object.hasOwn(knownFiles, fileName)) {
         return knownFiles[fileName];
     } else {
-        const extension = fileName.replace(/^.*\./, "");
-        if (extension in knownExtensions) {
+        if (hasExtension && Object.hasOwn(knownExtensions, extension)) {
             return knownExtensions[extension];
         }
     }
