@@ -5,6 +5,7 @@ import { detectLanguage } from "./languageMap.ts";
 import { buildCodeBlock } from "./noteBuilder.ts";
 import { InputModal } from "./PathInputModal.ts";
 import { expandHomePath } from "./pathExpander.ts";
+import { type PluginSettings, parseSettings } from "./settings.ts";
 
 class LanguageModal extends Modal {
     language: string;
@@ -57,7 +58,9 @@ class LanguageModal extends Modal {
 }
 
 export default class MyPlugin extends Plugin {
+    declare settings: PluginSettings;
     async onload(): Promise<void> {
+        this.settings = parseSettings(await this.loadData());
         this.addCommand({
             id: "dotfiles-to-block",
             name: "Dotfiles to code block",
@@ -82,7 +85,7 @@ export default class MyPlugin extends Plugin {
         const path = expandHomePath(inputPath);
         const content = await readDotFile(path);
         const file = basename(path);
-        const language = detectLanguage(file);
+        const language = detectLanguage(file, this.settings.customLanguageMap);
         if (content.ok) {
             if (language === undefined) {
                 new LanguageModal(this.app, (inputLanguage) => {
