@@ -6,6 +6,7 @@ import { buildCodeBlock } from "./noteBuilder.ts";
 import { InputModal } from "./PathInputModal.ts";
 import { expandHomePath } from "./pathExpander.ts";
 import { type PluginSettings, parseSettings } from "./settings.ts";
+import { MyPluginSettingTab } from "./SettingsTab.ts";
 
 class LanguageModal extends Modal {
     language: string;
@@ -61,6 +62,7 @@ export default class MyPlugin extends Plugin {
     declare settings: PluginSettings;
     async onload(): Promise<void> {
         this.settings = parseSettings(await this.loadData());
+        this.addSettingTab(new MyPluginSettingTab(this.app, this));
         this.addCommand({
             id: "dotfiles-to-block",
             name: "Dotfiles to code block",
