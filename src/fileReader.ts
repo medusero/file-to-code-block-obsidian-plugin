@@ -1,5 +1,12 @@
 import { readFile, stat } from "node:fs/promises";
-import { type Result, type FileReadError, ok, err } from "./result.ts";
+import { type Result, ok, err } from "./result.ts";
+
+export type FileReadError =
+    | "FILE_NOT_FOUND"
+    | "PERMISSION_DENIED"
+    | "UNKNOWN_ERROR"
+    | "TOO_MANY_LINES"
+    | "FILE_TOO_LARGE";
 
 export async function readDotFile(
     filePath: string,

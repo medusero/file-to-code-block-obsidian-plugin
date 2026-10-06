@@ -1,12 +1,20 @@
 import { basename } from "node:path";
 import { Plugin, Modal, App, Setting, Notice, MarkdownView } from "obsidian";
-import { readDotFile } from "./fileReader.ts";
+import { type FileReadError, readDotFile } from "./fileReader.ts";
 import { detectLanguage } from "./languageMap.ts";
 import { buildCodeBlock } from "./noteBuilder.ts";
 import { InputModal } from "./PathInputModal.ts";
 import { expandHomePath } from "./pathExpander.ts";
 import { type PluginSettings, parseSettings } from "./settings.ts";
 import { MyPluginSettingTab } from "./SettingsTab.ts";
+
+const CODEBLOCK_ERROR_MESSAGES: Record<FileReadError, string> = {
+    FILE_NOT_FOUND: "File not found",
+    FILE_TOO_LARGE: "The file is too large; Are you sure it's a text file?",
+    TOO_MANY_LINES: "The file has too many lines for a simple code block",
+    PERMISSION_DENIED: "You don't have permissions to open this file",
+    UNKNOWN_ERROR: "Unknown error",
+};
 
 class LanguageModal extends Modal {
     language: string;
@@ -102,21 +110,7 @@ export default class MyPlugin extends Plugin {
                 this.insertCodeBlock(codeBlock);
             }
         } else {
-            if (content.error === "TOO_MANY_LINES") {
-                new Notice(
-                    "The file has too many lines for a simple code block",
-                );
-            } else if (content.error === "FILE_TOO_LARGE") {
-                new Notice(
-                    "The file is too large; Are you sure it's a text file?",
-                );
-            } else if (content.error === "PERMISSION_DENIED") {
-                new Notice("You don't have permissions to open this file");
-            } else if (content.error === "FILE_NOT_FOUND") {
-                new Notice("File not found");
-            } else {
-                new Notice("Unknown error");
-            }
+            new Notice(CODEBLOCK_ERROR_MESSAGES[content.error]);
         }
     }
 }
