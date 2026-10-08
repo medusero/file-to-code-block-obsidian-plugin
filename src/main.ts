@@ -7,6 +7,7 @@ import { InputModal } from "./PathInputModal.ts";
 import { expandHomePath } from "./pathExpander.ts";
 import { type PluginSettings, parseSettings } from "./settings.ts";
 import { MyPluginSettingTab } from "./SettingsTab.ts";
+import { isKnownLanguage, KNOWN_LANGUAGES } from "./languageChecker.ts";
 
 const CODEBLOCK_ERROR_MESSAGES: Record<FileReadError, string> = {
     FILE_NOT_FOUND: "File not found",
@@ -104,6 +105,14 @@ export default class MyPlugin extends Plugin {
                         inputLanguage,
                     );
                     this.insertCodeBlock(codeBlock);
+                    if (
+                        inputLanguage.trim().length > 0 &&
+                        !isKnownLanguage(inputLanguage, KNOWN_LANGUAGES)
+                    ) {
+                        new Notice(
+                            `Language "${inputLanguage}" may not be highlighted in reading view`,
+                        );
+                    }
                 }).open();
             } else {
                 const codeBlock = buildCodeBlock(content.data, language);
