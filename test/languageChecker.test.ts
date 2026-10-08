@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { isKnownLanguage } from "../src/languageChecker.ts";
+import { isKnownLanguage, KNOWN_LANGUAGES } from "../src/languageChecker.ts";
 
 test("debe devolver true ante la coincidencia con 'bash'", () => {
     assert.strictEqual(isKnownLanguage("bash", ["bash", "ini"]), true);
@@ -35,4 +35,9 @@ test("debe devolver false ante un texto que contiene una coincidencia", () => {
 });
 test("debe devolver false ante un texto con un espacio interior", () => {
     assert.strictEqual(isKnownLanguage("ba sh", ["bash", "ini"]), false);
+});
+test("debe verificar que todas las entradas están en minúsculas y carecen de espacios", () => {
+    KNOWN_LANGUAGES.forEach((language) =>
+        assert.strictEqual(language, language.toLowerCase().trim()),
+    );
 });
