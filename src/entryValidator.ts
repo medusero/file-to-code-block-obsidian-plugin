@@ -1,4 +1,4 @@
-import { type Result, ok, err } from "./result.ts";
+import { type Result, err, ok } from "./result.ts";
 
 export type ValidatorError =
     | "EMPTY_FILE_NAME"

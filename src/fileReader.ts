@@ -1,5 +1,5 @@
 import { readFile, stat } from "node:fs/promises";
-import { type Result, ok, err } from "./result.ts";
+import { type Result, err, ok } from "./result.ts";
 
 export type FileReadError =
     | "FILE_NOT_FOUND"
