@@ -7,9 +7,10 @@ import {
     TextComponent,
 } from "obsidian";
 import { type ValidatorError, validateEntry } from "./entryValidator.ts";
+import { isKnownLanguage, KNOWN_LANGUAGES } from "./languageChecker.ts";
 import type MyPlugin from "./main.ts";
 
-const ENTRY_ERRORS_MESSAGES: Record<ValidatorError, string> = {
+const ENTRY_ERROR_MESSAGES: Record<ValidatorError, string> = {
     EMPTY_FILE_NAME: "Enter a file name or a pattern like *.ext",
     EMPTY_LANGUAGE: "Enter a language, for example bash",
     INVALID_FILE_NAME:
@@ -89,9 +90,19 @@ export class MyPluginSettingTab extends PluginSettingTab {
                                     languageField?.setValue("");
                                     paintList();
                                     new Notice("Entry added");
+                                    if (
+                                        !isKnownLanguage(
+                                            result.data.language,
+                                            KNOWN_LANGUAGES,
+                                        )
+                                    ) {
+                                        new Notice(
+                                            `Language "${result.data.language}" may not be highlighted in reading view`,
+                                        );
+                                    }
                                 } else {
                                     new Notice(
-                                        ENTRY_ERRORS_MESSAGES[result.error],
+                                        ENTRY_ERROR_MESSAGES[result.error],
                                     );
                                 }
                             });
