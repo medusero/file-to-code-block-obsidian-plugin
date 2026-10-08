@@ -1,5 +1,13 @@
 import { basename } from "node:path";
-import { App, MarkdownView, Modal, Notice, Plugin, Setting } from "obsidian";
+import {
+    App,
+    loadPrism,
+    MarkdownView,
+    Modal,
+    Notice,
+    Plugin,
+    Setting,
+} from "obsidian";
 import { type FileReadError, readDotFile } from "./fileReader.ts";
 import { isKnownLanguage, KNOWN_LANGUAGES } from "./languageChecker.ts";
 import { detectLanguage } from "./languageMap.ts";
@@ -70,6 +78,7 @@ class LanguageModal extends Modal {
 export default class MyPlugin extends Plugin {
     declare settings: PluginSettings;
     async onload(): Promise<void> {
+        console.log(await loadPrism());
         this.settings = parseSettings(await this.loadData());
         this.addSettingTab(new MyPluginSettingTab(this.app, this));
         this.addCommand({

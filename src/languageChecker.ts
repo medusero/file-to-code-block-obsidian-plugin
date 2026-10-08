@@ -21,7 +21,6 @@ export const KNOWN_LANGUAGES: readonly string[] = [
     "python",
     "py",
     "ruby",
-    "tmux",
     "javascript",
     "typescript",
     "css",

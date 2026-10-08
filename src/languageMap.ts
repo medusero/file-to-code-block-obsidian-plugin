@@ -13,7 +13,6 @@ const knownFiles: Readonly<Record<string, string>> = {
     ".vimrc": "vim",
     ".gvimrc": "vim",
     ".editorconfig": "ini",
-    ".tmux.conf": "tmux",
     ".npmrc": "ini",
     ".eslintrc": "json",
     ".prettierrc": "json",
