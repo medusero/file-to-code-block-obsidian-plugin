@@ -1,5 +1,5 @@
-import test from "node:test";
 import assert from "node:assert/strict";
+import test from "node:test";
 import { detectLanguage } from "../src/languageMap.ts";
 
 test("detecta yaml para .yaml y .yml, json para .json, bash para .zshrc y undefined para README.md", () => {

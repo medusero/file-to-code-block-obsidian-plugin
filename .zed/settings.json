@@ -2,7 +2,10 @@
     "languages": {
         "TypeScript": {
             "format_on_save": "on",
-            "formatter": "prettier"
+            "formatter": [
+                { "code_action": "source.organizeImports" },
+                "prettier"
+            ]
         }
     }
 }

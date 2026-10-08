@@ -1,5 +1,5 @@
-import test from "node:test";
 import assert from "node:assert/strict";
+import test from "node:test";
 import { DEFAULT_SETTINGS, parseSettings } from "../src/settings.ts";
 
 test("comprueba si devuelve valores por defecto para undefined y null", () => {

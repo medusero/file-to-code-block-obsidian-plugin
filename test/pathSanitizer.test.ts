@@ -1,5 +1,5 @@
-import test from "node:test";
 import assert from "node:assert/strict";
+import test from "node:test";
 import { sanitizePath } from "../src/pathSanitizer.ts";
 
 test("Validar la eliminación de comillas y espacios en blanco", () => {

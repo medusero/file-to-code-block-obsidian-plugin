@@ -1,7 +1,7 @@
-import test from "node:test";
 import assert from "node:assert/strict";
 import { homedir } from "node:os";
 import { join } from "node:path";
+import test from "node:test";
 import { expandHomePath } from "../src/pathExpander.ts";
 
 test("Validar la correcta expansión del directorio del usuario", () => {

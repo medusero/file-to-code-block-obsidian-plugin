@@ -1,6 +1,6 @@
-import test from "node:test";
 import assert from "node:assert/strict";
-import { computeFence, buildCodeBlock } from "../src/noteBuilder.ts";
+import test from "node:test";
+import { buildCodeBlock, computeFence } from "../src/noteBuilder.ts";
 
 test("detecta si devuelve la cantidad correcta de backticks", () => {
     assert.strictEqual(computeFence("content with no backticks"), "```");

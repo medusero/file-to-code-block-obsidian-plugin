@@ -1,7 +1,7 @@
-import { describe, it, before, after } from "node:test";
 import assert from "node:assert/strict";
-import { writeFile, unlink, chmod, stat, mkdir, rm } from "node:fs/promises";
+import { chmod, mkdir, rm, unlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import { after, before, describe, it } from "node:test";
 import { readDotFile } from "../src/fileReader.ts";
 import { err } from "../src/result.ts";
 

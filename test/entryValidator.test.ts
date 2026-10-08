@@ -1,7 +1,7 @@
-import test from "node:test";
 import assert from "node:assert/strict";
-import { err, ok } from "../src/result.ts";
+import test from "node:test";
 import { validateEntry } from "../src/entryValidator.ts";
+import { err, ok } from "../src/result.ts";
 
 test("debe devolver 'EMPTY_FILE_NAME' si no hay nombre de archivo o patrón", () => {
     assert.deepStrictEqual(validateEntry("  ", "sh"), err("EMPTY_FILE_NAME"));
