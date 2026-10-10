@@ -1,12 +1,13 @@
+.file-to-code-block-add-entry,
 .file-to-code-block-entry-list {
-    max-height: 20rem;
-    overflow-y: auto;
-}
-.file-to-code-block-add-entry, .file-to-code-block-entry-list {
     border: 1px solid var(--background-modifier-border);
     border-radius: var(--radius-m);
     padding: var(--size-4-2);
     width: 22rem;
     max-width: 100%;
     text-align: left;
+}
+.file-to-code-block-entry-list {
+    max-height: 20rem;
+    overflow-y: auto;
 }
