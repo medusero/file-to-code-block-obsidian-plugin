@@ -1,5 +1,5 @@
 {
-  "name": "dotfiles-obsidian-plugin",
+  "name": "file-to-code-block",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

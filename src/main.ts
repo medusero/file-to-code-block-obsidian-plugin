@@ -8,7 +8,7 @@ import {
     Plugin,
     Setting,
 } from "obsidian";
-import { type FileReadError, readDotFile } from "./fileReader.ts";
+import { type FileReadError, readTextFile } from "./fileReader.ts";
 import { isKnownLanguage, KNOWN_LANGUAGES } from "./languageChecker.ts";
 import { detectLanguage } from "./languageMap.ts";
 import { buildCodeBlock } from "./noteBuilder.ts";
@@ -16,7 +16,7 @@ import { expandHomePath } from "./pathExpander.ts";
 import { InputModal } from "./PathInputModal.ts";
 import { extractPrismLanguages } from "./prismLanguages.ts";
 import { type PluginSettings, parseSettings } from "./settings.ts";
-import { MyPluginSettingTab } from "./SettingsTab.ts";
+import { FileToCodeBlockSettingTab } from "./SettingsTab.ts";
 
 const CODEBLOCK_ERROR_MESSAGES: Record<FileReadError, string> = {
     FILE_NOT_FOUND: "File not found",
@@ -76,15 +76,15 @@ class LanguageModal extends Modal {
     }
 }
 
-export default class MyPlugin extends Plugin {
+export default class FileToCodeBlockPlugin extends Plugin {
     declare settings: PluginSettings;
     knownLanguages: readonly string[] = KNOWN_LANGUAGES;
     async onload(): Promise<void> {
         this.settings = parseSettings(await this.loadData());
-        this.addSettingTab(new MyPluginSettingTab(this.app, this));
+        this.addSettingTab(new FileToCodeBlockSettingTab(this.app, this));
         this.addCommand({
-            id: "dotfiles-to-block",
-            name: "Dotfiles to code block",
+            id: "insert-file",
+            name: "Insert file as code block",
             callback: () => {
                 new InputModal(this.app, async (inputPath) => {
                     await this.writeCodeBlock(inputPath);
@@ -117,7 +117,7 @@ export default class MyPlugin extends Plugin {
     }
     async writeCodeBlock(inputPath: string): Promise<void> {
         const path = expandHomePath(inputPath);
-        const content = await readDotFile(path);
+        const content = await readTextFile(path);
         const file = basename(path);
         const language = detectLanguage(file, this.settings.customLanguageMap);
         if (content.ok) {

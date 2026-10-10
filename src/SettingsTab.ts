@@ -8,7 +8,7 @@ import {
 } from "obsidian";
 import { type ValidatorError, validateEntry } from "./entryValidator.ts";
 import { isKnownLanguage } from "./languageChecker.ts";
-import type MyPlugin from "./main.ts";
+import { type FileToCodeBlockPlugin } from "./main.ts";
 
 const ENTRY_ERROR_MESSAGES: Record<ValidatorError, string> = {
     EMPTY_FILE_NAME: "Enter a file name or a pattern like *.ext",
@@ -19,10 +19,10 @@ const ENTRY_ERROR_MESSAGES: Record<ValidatorError, string> = {
         "This file name or pattern is already in your list. Delete it first to change its language",
 };
 
-export class MyPluginSettingTab extends PluginSettingTab {
-    plugin: MyPlugin;
+export class FileToCodeBlockSettingTab extends PluginSettingTab {
+    plugin: FileToCodeBlockPlugin;
 
-    constructor(app: App, plugin: MyPlugin) {
+    constructor(app: App, plugin: FileToCodeBlockPlugin) {
         super(app, plugin);
         this.plugin = plugin;
     }
@@ -41,7 +41,7 @@ export class MyPluginSettingTab extends PluginSettingTab {
                     textKey = "";
                     textLanguage = "";
                     const addTextEl = setting.controlEl.createDiv(
-                        "dotfiles-language-add-text",
+                        "file-to-code-block-add-entry",
                     );
                     new Setting(addTextEl)
                         .setName("Key")
@@ -114,7 +114,7 @@ export class MyPluginSettingTab extends PluginSettingTab {
                 desc: "List user dictionary",
                 render: (setting: Setting) => {
                     const listEl = setting.controlEl.createDiv(
-                        "dotfiles-language-list",
+                        "file-to-code-block-entry-list",
                     );
                     paintList = () => {
                         listEl.empty();

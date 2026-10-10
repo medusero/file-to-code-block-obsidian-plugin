@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { chmod, mkdir, rm, unlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { after, before, describe, it } from "node:test";
-import { readDotFile } from "../src/fileReader.ts";
+import { readTextFile } from "../src/fileReader.ts";
 import { err } from "../src/result.ts";
 
 describe("fileReader validation tests", () => {
@@ -45,32 +45,32 @@ describe("fileReader validation tests", () => {
     });
 
     it('debe devolver "FILE_TOO_LARGE" si el archivo iguala o supera los 2MB', async () => {
-        const result = await readDotFile(largeFilePath);
+        const result = await readTextFile(largeFilePath);
         assert.deepStrictEqual(result, err("FILE_TOO_LARGE"));
     });
 
     it("no debe devolver ningún error si el archivo es menor a 2MB", async () => {
-        const result = await readDotFile(smallFilePath);
+        const result = await readTextFile(smallFilePath);
         assert.equal(result.ok, true);
     });
 
     it('debe devolver "PERMISSION_DENIED" si el archivo no tiene permisos', async () => {
-        const result = await readDotFile(noPermissionsFilePath);
+        const result = await readTextFile(noPermissionsFilePath);
         assert.deepStrictEqual(result, err("PERMISSION_DENIED"));
     });
 
     it('debe devolver "FILE_NOT_FOUND" si el archivo no existe', async () => {
-        const result = await readDotFile(noFilePath);
+        const result = await readTextFile(noFilePath);
         assert.deepStrictEqual(result, err("FILE_NOT_FOUND"));
     });
 
     it('debe devolver "TOO_MANY_LINES" si el archivo supera las 1000 líneas', async () => {
-        const result = await readDotFile(manyLinesFilePath);
+        const result = await readTextFile(manyLinesFilePath);
         assert.deepStrictEqual(result, err("TOO_MANY_LINES"));
     });
 
     it('debe devolver "UNKNOWN_ERROR" si el archivo no es un archivo', async () => {
-        const result = await readDotFile(dirPath);
+        const result = await readTextFile(dirPath);
         assert.deepStrictEqual(result, err("UNKNOWN_ERROR"));
     });
 });
