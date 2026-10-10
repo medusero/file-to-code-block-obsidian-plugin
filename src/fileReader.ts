@@ -8,7 +8,7 @@ export type FileReadError =
     | "TOO_MANY_LINES"
     | "FILE_TOO_LARGE";
 
-export async function readDotFile(
+export async function readTextFile(
     filePath: string,
 ): Promise<Result<string, FileReadError>> {
     try {
