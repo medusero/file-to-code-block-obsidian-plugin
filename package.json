@@ -1,21 +1,18 @@
 {
   "name": "file-to-code-block",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Obsidian plugin to insert text files (such as dotfiles or scripts) from your computer into the current note as fenced code blocks, with the language detected from the file name.",
+  "private": true,
   "scripts": {
     "test": "node --test",
     "dev": "node esbuild.config.mjs",
     "build": "node esbuild.config.mjs production"
   },
-  "keywords": [],
   "type": "module",
   "devDependencies": {
     "@types/node": "^26.6.1",
     "esbuild": "^0.28.2",
-    "typescript": "^7.0.2"
-  },
-  "dependencies": {
+    "typescript": "^7.0.2",
     "obsidian": "^1.13.1"
   }
 }
