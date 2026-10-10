@@ -8,7 +8,7 @@ import {
 } from "obsidian";
 import { type ValidatorError, validateEntry } from "./entryValidator.ts";
 import { isKnownLanguage } from "./languageChecker.ts";
-import { type FileToCodeBlockPlugin } from "./main.ts";
+import type FileToCodeBlockPlugin from "./main.ts";
 
 const ENTRY_ERROR_MESSAGES: Record<ValidatorError, string> = {
     EMPTY_FILE_NAME: "Enter a file name or a pattern like *.ext",
