@@ -1,9 +1,9 @@
 {
-    "id": "dotfiles",
-    "name": "Dotfiles",
+    "id": "file-to-code-block",
+    "name": "File to Code Block",
     "version": "1.0.0",
-    "minAppVersion": "0.15.0",
-    "description": "Quickly embed configuration files (dotfiles) from your system into Obsidian notes as code blocks with automatic language detection.",
+    "minAppVersion": "1.13.0",
+    "description": "Insert text files (such as dotfiles or scripts) from your computer into the current note as fenced code blocks, with the language detected from the file name.",
     "author": "medusero",
     "authorUrl": "https://github.com/medusero",
     "isDesktopOnly": true
