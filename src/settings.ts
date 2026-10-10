@@ -1,3 +1,5 @@
+import { isPlainObject } from "./objectChecker.ts";
+
 export interface PluginSettings {
     customLanguageMap: Record<string, string>;
 }
@@ -5,10 +7,6 @@ export interface PluginSettings {
 export const DEFAULT_SETTINGS: PluginSettings = {
     customLanguageMap: {},
 };
-
-function isPlainObject(value: unknown): value is Record<string, unknown> {
-    return typeof value === "object" && value !== null && !Array.isArray(value);
-}
 
 export function parseSettings(raw: unknown): PluginSettings {
     const settings = isPlainObject(raw) ? (raw as Partial<PluginSettings>) : {};

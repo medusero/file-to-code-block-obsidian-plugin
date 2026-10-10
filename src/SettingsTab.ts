@@ -7,7 +7,7 @@ import {
     TextComponent,
 } from "obsidian";
 import { type ValidatorError, validateEntry } from "./entryValidator.ts";
-import { isKnownLanguage, KNOWN_LANGUAGES } from "./languageChecker.ts";
+import { isKnownLanguage } from "./languageChecker.ts";
 import type MyPlugin from "./main.ts";
 
 const ENTRY_ERROR_MESSAGES: Record<ValidatorError, string> = {
@@ -93,7 +93,7 @@ export class MyPluginSettingTab extends PluginSettingTab {
                                     if (
                                         !isKnownLanguage(
                                             result.data.language,
-                                            KNOWN_LANGUAGES,
+                                            this.plugin.knownLanguages,
                                         )
                                     ) {
                                         new Notice(

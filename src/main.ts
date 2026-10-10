@@ -14,6 +14,7 @@ import { detectLanguage } from "./languageMap.ts";
 import { buildCodeBlock } from "./noteBuilder.ts";
 import { expandHomePath } from "./pathExpander.ts";
 import { InputModal } from "./PathInputModal.ts";
+import { extractPrismLanguages } from "./prismLanguages.ts";
 import { type PluginSettings, parseSettings } from "./settings.ts";
 import { MyPluginSettingTab } from "./SettingsTab.ts";
 
@@ -77,8 +78,8 @@ class LanguageModal extends Modal {
 
 export default class MyPlugin extends Plugin {
     declare settings: PluginSettings;
+    knownLanguages: readonly string[] = KNOWN_LANGUAGES;
     async onload(): Promise<void> {
-        console.log(await loadPrism());
         this.settings = parseSettings(await this.loadData());
         this.addSettingTab(new MyPluginSettingTab(this.app, this));
         this.addCommand({
@@ -90,8 +91,21 @@ export default class MyPlugin extends Plugin {
                 }).open();
             },
         });
+        void this.loadKnownLanguages();
     }
 
+    async loadKnownLanguages(): Promise<void> {
+        try {
+            const result = extractPrismLanguages(await loadPrism());
+            if (result !== undefined) {
+                this.knownLanguages = result;
+            }
+        } catch {
+            console.warn(
+                "Could not load Prism; using the built-in language list",
+            );
+        }
+    }
     insertCodeBlock(codeBlock: string) {
         const view = this.app.workspace.getActiveViewOfType(MarkdownView);
         if (view) {
@@ -116,7 +130,7 @@ export default class MyPlugin extends Plugin {
                     this.insertCodeBlock(codeBlock);
                     if (
                         inputLanguage.trim().length > 0 &&
-                        !isKnownLanguage(inputLanguage, KNOWN_LANGUAGES)
+                        !isKnownLanguage(inputLanguage, this.knownLanguages)
                     ) {
                         new Notice(
                             `Language "${inputLanguage}" may not be highlighted in reading view`,
