@@ -1,7 +1,7 @@
 {
     "id": "file-to-code-block",
     "name": "File to Code Block",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "minAppVersion": "1.13.0",
     "description": "Insert text files (such as dotfiles or scripts) from your computer into the current note as fenced code blocks, with the language detected from the file name.",
     "author": "medusero",
