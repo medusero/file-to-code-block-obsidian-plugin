@@ -12,15 +12,15 @@ Desktop only: the plugin reads files with Node.js, which is not available in Obs
 
 1. Download `main.js`, `manifest.json` and `styles.css` from the [latest release](https://github.com/medusero/file-to-code-block-obsidian-plugin/releases/latest).
 2. In your vault, create the folder `.obsidian/plugins/file-to-code-block/` and copy the three files into it. On some systems `.obsidian` is hidden; enable hidden files in your file manager to see it.
-3. Reload Obsidian, then enable **File to Code Block** under **Settings -> Community plugins -> Installed plugins**.
+3. Reload Obsidian, then enable **File to Code Block** under **Settings → Community plugins → Installed plugins**.
 
 ## Configuration
 
-In *Settings -> File to Code Block*:
+In *Settings → File to Code Block*:
 
 | Setting              | Description                                                                                             |
 | -------------------- | ------------------------------------------------------------------------------------------------------- |
-| **Add entry**        | Adds a file name -> language pair (e.g. `.myrc` -> `bash`). Both fields are required and the file name must be new. |
+| **Add entry**        | Adds a file name → language pair (e.g. `.myrc` → `bash`). Both fields are required and the file name must be new. |
 | **Custom languages** | The list of entries you have added. They take priority over the built-in list.                          |
 
 If you enter a language that Obsidian's code highlighter does not know, the plugin shows a notice. This is only a hint: the entry is still saved, and highlighting in reading view may simply be missing.
