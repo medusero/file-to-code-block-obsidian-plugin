@@ -8,6 +8,14 @@ Desktop only: the plugin reads files with Node.js, which is not available in Obs
 
 ## Installation
 
+### From Obsidian's community plugins
+
+1. Open **Settings → Community plugins**. If you haven't already, select **Turn on community plugins**.
+2. Select **Browse**, search for **File to Code Block**, and select **Install**.
+3. Select **Enable**.
+
+File to Code Block has passed Obsidian's automated checks and is awaiting manual review, so its listing currently shows a "not yet reviewed by the Obsidian team" notice. Installing, enabling, and updating all work as usual in the meantime.
+
 ### Manual installation
 
 1. Download `main.js`, `manifest.json` and `styles.css` from the [latest release](https://github.com/medusero/file-to-code-block-obsidian-plugin/releases/latest).
