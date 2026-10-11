@@ -25,7 +25,7 @@ export class InputModal extends Modal {
                 }
             });
 
-            setTimeout(() => text.inputEl.focus(), 0);
+            window.setTimeout(() => text.inputEl.focus(), 0);
         });
 
         new Setting(contentEl).addButton((btn) =>

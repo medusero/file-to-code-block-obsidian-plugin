@@ -52,7 +52,7 @@ class LanguageModal extends Modal {
                 }
             });
 
-            setTimeout(() => text.inputEl.focus(), 0);
+            window.setTimeout(() => text.inputEl.focus(), 0);
         });
 
         new Setting(contentEl).addButton((btn) =>
@@ -86,8 +86,8 @@ export default class FileToCodeBlockPlugin extends Plugin {
             id: "insert-file",
             name: "Insert file as code block",
             callback: () => {
-                new InputModal(this.app, async (inputPath) => {
-                    await this.writeCodeBlock(inputPath);
+                new InputModal(this.app, (inputPath) => {
+                    void this.writeCodeBlock(inputPath);
                 }).open();
             },
         });
