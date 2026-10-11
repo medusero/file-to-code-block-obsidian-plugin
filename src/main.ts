@@ -106,43 +106,60 @@ export default class FileToCodeBlockPlugin extends Plugin {
             );
         }
     }
-    insertCodeBlock(codeBlock: string) {
-        const view = this.app.workspace.getActiveViewOfType(MarkdownView);
-        if (view) {
-            const editor = view.editor;
-            editor.replaceSelection(codeBlock);
-        } else {
-            new Notice("No active markdown note found");
+    insertCodeBlock(codeBlock: string): void {
+        try {
+            const view = this.app.workspace.getActiveViewOfType(MarkdownView);
+            if (view) {
+                const editor = view.editor;
+                editor.replaceSelection(codeBlock);
+            } else {
+                new Notice("No active markdown note found");
+            }
+        } catch (error) {
+            this.reportUnexpectedError(error);
         }
     }
+    private reportUnexpectedError(error: unknown): void {
+        console.error("File to Code Block:", error);
+        new Notice(
+            "Could not insert the file. See the developer console for details.",
+        );
+    }
     async writeCodeBlock(inputPath: string): Promise<void> {
-        const path = expandHomePath(inputPath);
-        const content = await readTextFile(path);
-        const file = basename(path);
-        const language = detectLanguage(file, this.settings.customLanguageMap);
-        if (content.ok) {
-            if (language === undefined) {
-                new LanguageModal(this.app, (inputLanguage) => {
-                    const codeBlock = buildCodeBlock(
-                        content.data,
-                        inputLanguage,
-                    );
-                    this.insertCodeBlock(codeBlock);
-                    if (
-                        inputLanguage.trim().length > 0 &&
-                        !isKnownLanguage(inputLanguage, this.knownLanguages)
-                    ) {
-                        new Notice(
-                            `Language "${inputLanguage}" may not be highlighted in reading view`,
+        try {
+            const path = expandHomePath(inputPath);
+            const content = await readTextFile(path);
+            const file = basename(path);
+            const language = detectLanguage(
+                file,
+                this.settings.customLanguageMap,
+            );
+            if (content.ok) {
+                if (language === undefined) {
+                    new LanguageModal(this.app, (inputLanguage) => {
+                        const codeBlock = buildCodeBlock(
+                            content.data,
+                            inputLanguage,
                         );
-                    }
-                }).open();
+                        this.insertCodeBlock(codeBlock);
+                        if (
+                            inputLanguage.trim().length > 0 &&
+                            !isKnownLanguage(inputLanguage, this.knownLanguages)
+                        ) {
+                            new Notice(
+                                `Language "${inputLanguage}" may not be highlighted in reading view`,
+                            );
+                        }
+                    }).open();
+                } else {
+                    const codeBlock = buildCodeBlock(content.data, language);
+                    this.insertCodeBlock(codeBlock);
+                }
             } else {
-                const codeBlock = buildCodeBlock(content.data, language);
-                this.insertCodeBlock(codeBlock);
+                new Notice(CODEBLOCK_ERROR_MESSAGES[content.error]);
             }
-        } else {
-            new Notice(CODEBLOCK_ERROR_MESSAGES[content.error]);
+        } catch (error) {
+            this.reportUnexpectedError(error);
         }
     }
 }
