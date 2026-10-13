@@ -1,6 +1,6 @@
 {
   "name": "file-to-code-block",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Obsidian plugin to insert text files (such as dotfiles or scripts) from your computer into the current note as fenced code blocks, with the language detected from the file name.",
   "private": true,
   "scripts": {
