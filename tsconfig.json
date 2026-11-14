@@ -1,18 +1,20 @@
 {
-  "compilerOptions": {
-    "module": "nodenext",
-    "target": "esnext",
-    "types": ["node"],
-    "sourceMap": true,
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
-    "strict": true,
-    "verbatimModuleSyntax": true,
-    "isolatedModules": true,
-    "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force",
-    "skipLibCheck": true,
-    "noEmit": true,
-    "allowImportingTsExtensions": true,
-  }
+    "compilerOptions": {
+        "strict": true,
+        "module": "ESNext",
+        "target": "es2022",
+        "lib": ["DOM", "ES2022"],
+        "moduleResolution": "bundler",
+        "isolatedModules": true,
+        "noEmit": true,
+        "skipLibCheck": true,
+        "verbatimModuleSyntax": true,
+        "allowImportingTsExtensions": true,
+        "erasableSyntaxOnly": true,
+        "exactOptionalPropertyTypes": true,
+        "noUncheckedIndexedAccess": true,
+        "moduleDetection": "force",
+        "types": ["node"]
+    },
+    "include": ["src/**/*.ts"]
 }
