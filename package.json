@@ -3,16 +3,28 @@
     "version": "1.0.2",
     "description": "Obsidian plugin to insert text files (such as dotfiles or scripts) from your computer into the current note as fenced code blocks, with the language detected from the file name.",
     "private": true,
-    "scripts": {
-        "test": "node --test",
-        "dev": "node esbuild.config.mjs",
-        "build": "node esbuild.config.mjs production"
-    },
     "type": "module",
+    "main": "main.js",
+    "scripts": {
+        "test": "node --test 'test/**/*.test.ts'",
+        "dev": "node esbuild.config.mjs",
+        "typecheck": "tsc && tsc -p test",
+        "build": "node esbuild.config.mjs production",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
+        "lint": "eslint"
+    },
     "devDependencies": {
         "@types/node": "^24.19.2",
         "esbuild": "^0.28.2",
+        "eslint": "^9.39.5",
+        "eslint-plugin-obsidianmd": "^0.5.0",
+        "obsidian": "^1.13.1",
+        "prettier": "^3.9.10",
         "typescript": "^6.0.3",
-        "obsidian": "^1.13.1"
+        "typescript-eslint": "^8.72.1"
+    },
+    "allowScripts": {
+        "esbuild@0.28.2": true
     }
 }
