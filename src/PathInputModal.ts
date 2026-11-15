@@ -1,4 +1,4 @@
-import { App, Modal, Setting } from "obsidian";
+import { type App, Modal, Setting } from "obsidian";
 import { sanitizePath } from "./pathSanitizer.ts";
 
 export class InputModal extends Modal {
