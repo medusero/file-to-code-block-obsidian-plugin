@@ -24,12 +24,12 @@ File to Code Block has passed Obsidian's automated checks and is awaiting manual
 
 ## Configuration
 
-In *Settings → File to Code Block*:
+In _Settings → File to Code Block_:
 
-| Setting              | Description                                                                                             |
-| -------------------- | ------------------------------------------------------------------------------------------------------- |
+| Setting              | Description                                                                                                       |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------- |
 | **Add entry**        | Adds a file name → language pair (e.g. `.myrc` → `bash`). Both fields are required and the file name must be new. |
-| **Custom languages** | The list of entries you have added. They take priority over the built-in list.                          |
+| **Custom languages** | The list of entries you have added. They take priority over the built-in list.                                    |
 
 If you enter a language that Obsidian's code highlighter does not know, the plugin shows a notice. This is only a hint: the entry is still saved, and highlighting in reading view may simply be missing.
 
