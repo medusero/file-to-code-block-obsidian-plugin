@@ -25,13 +25,6 @@ export default defineConfig([
         },
     },
     {
-        files: ["esbuild.config.mjs"],
-        rules: {
-            // Build script: runs in Node at build time, never inside Obsidian.
-            "obsidianmd/no-nodejs-modules": "off",
-        },
-    },
-    {
         files: ["test/**/*.ts"],
         rules: {
             "@typescript-eslint/no-floating-promises": [
