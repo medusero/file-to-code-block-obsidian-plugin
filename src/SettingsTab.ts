@@ -1,10 +1,10 @@
 import {
-    type SettingDefinition,
-    App,
+    type App,
     Notice,
     PluginSettingTab,
     Setting,
-    TextComponent,
+    type SettingDefinition,
+    type TextComponent,
 } from "obsidian";
 import { type ValidatorError, validateEntry } from "./entryValidator.ts";
 import { isKnownLanguage } from "./languageChecker.ts";

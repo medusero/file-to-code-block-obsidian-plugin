@@ -1,6 +1,6 @@
 import { basename } from "node:path";
 import {
-    App,
+    type App,
     loadPrism,
     MarkdownView,
     Modal,
