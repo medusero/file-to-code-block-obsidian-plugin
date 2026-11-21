@@ -78,7 +78,8 @@ class LanguageModal extends Modal {
 
 export default class FileToCodeBlockPlugin extends Plugin {
     declare settings: PluginSettings;
-    knownLanguages: readonly string[] = KNOWN_LANGUAGES;
+    private knownLanguagesPromise: Promise<readonly string[]> | undefined =
+        undefined;
     async onload(): Promise<void> {
         this.settings = parseSettings(await this.loadData());
         this.addSettingTab(new FileToCodeBlockSettingTab(this.app, this));
@@ -91,19 +92,27 @@ export default class FileToCodeBlockPlugin extends Plugin {
                 }).open();
             },
         });
-        void this.loadKnownLanguages();
     }
 
-    async loadKnownLanguages(): Promise<void> {
+    private getKnownLanguages(): Promise<readonly string[]> {
+        if (this.knownLanguagesPromise === undefined) {
+            this.knownLanguagesPromise = this.loadKnownLanguages();
+        }
+        return this.knownLanguagesPromise;
+    }
+
+    private async loadKnownLanguages(): Promise<readonly string[]> {
         try {
             const result = extractPrismLanguages(await loadPrism());
             if (result !== undefined) {
-                this.knownLanguages = result;
+                return result;
             }
+            return KNOWN_LANGUAGES;
         } catch {
             console.warn(
                 "Could not load Prism; using the built-in language list",
             );
+            return KNOWN_LANGUAGES;
         }
     }
     insertCodeBlock(codeBlock: string): void {
@@ -125,6 +134,17 @@ export default class FileToCodeBlockPlugin extends Plugin {
             "Could not insert the file. See the developer console for details.",
         );
     }
+    async warnIfUnknownLanguage(inputLanguage: string): Promise<void> {
+        if (inputLanguage.trim().length === 0) {
+            return;
+        }
+        const knownLanguages = await this.getKnownLanguages();
+        if (!isKnownLanguage(inputLanguage, knownLanguages)) {
+            new Notice(
+                `Language "${inputLanguage}" may not be highlighted in reading view`,
+            );
+        }
+    }
     async writeCodeBlock(inputPath: string): Promise<void> {
         try {
             const path = expandHomePath(inputPath);
@@ -142,14 +162,7 @@ export default class FileToCodeBlockPlugin extends Plugin {
                             inputLanguage,
                         );
                         this.insertCodeBlock(codeBlock);
-                        if (
-                            inputLanguage.trim().length > 0 &&
-                            !isKnownLanguage(inputLanguage, this.knownLanguages)
-                        ) {
-                            new Notice(
-                                `Language "${inputLanguage}" may not be highlighted in reading view`,
-                            );
-                        }
+                        void this.warnIfUnknownLanguage(inputLanguage);
                     }).open();
                 } else {
                     const codeBlock = buildCodeBlock(content.data, language);
