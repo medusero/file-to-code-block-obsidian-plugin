@@ -7,7 +7,6 @@ import {
     type TextComponent,
 } from "obsidian";
 import { type ValidatorError, validateEntry } from "./entryValidator.ts";
-import { isKnownLanguage } from "./languageChecker.ts";
 import type FileToCodeBlockPlugin from "./main.ts";
 
 const ENTRY_ERROR_MESSAGES: Record<ValidatorError, string> = {
@@ -90,16 +89,9 @@ export class FileToCodeBlockSettingTab extends PluginSettingTab {
                                     languageField?.setValue("");
                                     paintList();
                                     new Notice("Entry added");
-                                    if (
-                                        !isKnownLanguage(
-                                            result.data.language,
-                                            this.plugin.knownLanguages,
-                                        )
-                                    ) {
-                                        new Notice(
-                                            `Language "${result.data.language}" may not be highlighted in reading view`,
-                                        );
-                                    }
+                                    void this.plugin.warnIfUnknownLanguage(
+                                        result.data.language,
+                                    );
                                 } else {
                                     new Notice(
                                         ENTRY_ERROR_MESSAGES[result.error],
