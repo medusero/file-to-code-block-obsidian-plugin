@@ -108,9 +108,11 @@ export default class FileToCodeBlockPlugin extends Plugin {
                 return result;
             }
             return KNOWN_LANGUAGES;
-        } catch {
+        } catch (error) {
             console.warn(
+                "File to Code Block:",
                 "Could not load Prism; using the built-in language list",
+                error,
             );
             return KNOWN_LANGUAGES;
         }
