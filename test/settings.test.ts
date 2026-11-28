@@ -10,6 +10,11 @@ test("comprueba si devuelve valores por defecto para lo que no sea un objeto", (
     assert.deepStrictEqual(parseSettings(42), { customLanguageMap: {} });
     assert.deepStrictEqual(parseSettings("Hi"), { customLanguageMap: {} });
 });
+test("comprueba si devuelve valores por defecto para un array", () => {
+    assert.deepStrictEqual(parseSettings(["a", "b"]), {
+        customLanguageMap: {},
+    });
+});
 test("comprueba si devuelve valores por defecto para un objeto sin el formato adecuado", () => {
     assert.deepStrictEqual(parseSettings({ 3: 14 }), { customLanguageMap: {} });
 });
@@ -49,4 +54,12 @@ test("comprueba si ante array devuelve mapa vacío por defecto", () => {
     assert.deepStrictEqual(parseSettings({ customLanguageMap: ["a", "b"] }), {
         customLanguageMap: {},
     });
+});
+test("comprueba si ante objeto anidado devuelve el valor válido", () => {
+    assert.deepStrictEqual(
+        parseSettings({ customLanguageMap: { uno: "a", dos: { 2: "b" } } }),
+        {
+            customLanguageMap: { uno: "a" },
+        },
+    );
 });
