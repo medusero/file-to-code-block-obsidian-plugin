@@ -8,16 +8,18 @@ export const DEFAULT_SETTINGS: PluginSettings = {
     customLanguageMap: {},
 };
 
+function isStringPair(entry: [string, unknown]): entry is [string, string] {
+    return typeof entry[1] === "string";
+}
+
 export function parseSettings(raw: unknown): PluginSettings {
-    const settings = isPlainObject(raw) ? (raw as Partial<PluginSettings>) : {};
+    const settingsObject = isPlainObject(raw) ? raw : {};
     const entryMap = Object.entries(
-        isPlainObject(settings.customLanguageMap)
-            ? settings.customLanguageMap
+        isPlainObject(settingsObject.customLanguageMap)
+            ? settingsObject.customLanguageMap
             : DEFAULT_SETTINGS.customLanguageMap,
     );
-    const stringPairs = entryMap.filter(
-        ([, value]) => typeof value === "string",
-    );
+    const stringPairs = entryMap.filter(isStringPair);
     const onlyStrings = Object.fromEntries(stringPairs);
 
     return {
